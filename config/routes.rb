@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'landing_pages#index'
-
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
+  resources :shortened_urls do 
+    # map.link_translate "/s/:unique_key", :controller => "shortened_urls", :action => "create"
+  end
 
   # Example resource route with sub-resources:
   #   resources :products do
