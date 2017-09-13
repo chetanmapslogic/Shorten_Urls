@@ -27,6 +27,9 @@ class ShortenedUrlsController < ApplicationController
 			# if we don't find the shortened url, redirect to the root
 			head :moved_permanently, :location => root_url
 		end
+	end
 
+	def top_listings
+		@shortUrls = ShortenedUrl.all
 	end
 end

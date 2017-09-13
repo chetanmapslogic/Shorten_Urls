@@ -1,5 +1,5 @@
 class ShortenedUrl < ActiveRecord::Base
-
+	default_scope { ShortenedUrl.order(use_count: :desc).limit(100) }
   # model is dealing with the generation of a url
   include ActionDispatch::Routing::UrlFor
 
@@ -20,7 +20,7 @@ class ShortenedUrl < ActiveRecord::Base
  
   # generate a random string
   def self.generate_random_string(size = 6)
-  	
+
     # not doing uppercase as url is case insensitive
     charset = ('a'..'z').to_a + (0..9).to_a
     (0...size).map{ charset.to_a[rand(charset.size)] }.join

@@ -5,12 +5,18 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'landing_pages#index'
 
-  resources :shortened_urls 
+  resources :shortened_urls do 
+    collection do
+      #top lists of 100 URL as per use count
+      get :top_listings
+    end
+  end
 
   #convert the lengthy URL into shortened URL
   get "/:unique_key" => 'shortened_urls#convert', :as => :convert_link
 
   #Showing shortened URL for user
   get "/your_short_url/:id" => 'shortened_urls#your_short_url', :as => :short_url
+
   
 end
