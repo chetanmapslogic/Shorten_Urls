@@ -9,21 +9,21 @@
       <hr>
       <h2>Welcome to ShortURL!</h2>
       
-      <p>Are you sick of posting URLs in emails only to have it break when sent causing the recipient to have to cut and paste it back together? Then you've come to the right place. By entering in a URL in the text field below, we will create a tiny URL that will not break in email postings and never expires.</p>
+      <p> Please enter a URL in the text field below, we will create a shortened URL.</p>
       <br><br>
-      <%#= form_tag  do %>
+      <%= form_for ShortenedUrl.new do |f| %>
         <div align="center">
           <label>Enter a long URL to make short:</label>
           <div class="input-group">
             <div class="col-xs-12">
               <span class="input-group-btn">
-                <%= text_field_tag :long_url, "", class: 'form-control' %>
-                <button class="btn btn-default" type="button">Make ShortURL</button>
+                <%= f.text_field :url, class: 'form-control' %>
+                <%= f.button "Make ShortURL", class: 'btn btn-default'%>
               </span>
             </div>
           </div>
         </div>
-      <%# end %>
+      <% end %>
     </div>
   </div>
 </div>
