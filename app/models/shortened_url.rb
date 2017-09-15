@@ -1,28 +1,35 @@
 class ShortenedUrl < ActiveRecord::Base
 	default_scope { ShortenedUrl.order(use_count: :desc).limit(100) }
+  after_create :generate
   # model is dealing with the generation of a url
-  include ActionDispatch::Routing::UrlFor
-
-  UNIQUE_KEY_LENGTH = 5
   
-  # generate a shortened link from a url
- 
-  def self.generate(orig_url)
-    # generate a unique key for the link
-    begin
-      # has about 50 million possible combinations
-      unique_key = self.generate_random_string(UNIQUE_KEY_LENGTH)
-    end while ShortenedUrl.find_by_unique_key unique_key
+  # make your own alphabet It contains 62 letters.
+  @@chars = [*'0'..'9', *'a'..'z', *'A'..'Z', "_", "-"]
 
-    # create the shortened link, storing it
-    shortenedUrl = ShortenedUrl.create(:url => orig_url, :unique_key => unique_key)
-  end
- 
-  # generate a random string
-  def self.generate_random_string(size = 6)
+  # generae random links
+  def generate
+    #take an auto-generated, unique numerical key
+    id = self.id
 
-    # not doing uppercase as url is case insensitive
-    charset = ('a'..'z').to_a + (0..9).to_a
-    (0...size).map{ charset.to_a[rand(charset.size)] }.join
+    #generate unique link using bijective_function function
+    unique_key = bijective_function(id)
+    
+    #update unique key
+    self.update_attributes!(unique_key: unique_key)
   end
+
+private
+  #requires use of integer division and modulo
+  
+  def bijective_function(id)
+    return @@chars[0] if id == 0
+    string = ""
+    base = @@chars.length
+    while id > 0
+      string << @@chars[id.modulo(base)]
+      id /= base
+    end
+    string.reverse
+  end
+
 end
