@@ -3,7 +3,6 @@ class ShortenedUrlsController < ApplicationController
 		shortUrl = ShortenedUrl.new(url_params)
 		# binding.pry
 		if shortUrl.save
-			# shortUrl = ShortenedUrl.generate(params[:shortened_url][:url])
 			redirect_to  short_url_path(shortUrl.unique_key)
 		end
 	end
