@@ -1,10 +1,10 @@
 class ShortenedUrlsController < ApplicationController
 	def create
-		if params[:shortened_url][:url].present?
-			shortUrl = ShortenedUrl.generate(params[:shortened_url][:url])
+		shortUrl = ShortenedUrl.new(url_params)
+		# binding.pry
+		if shortUrl.save
+			# shortUrl = ShortenedUrl.generate(params[:shortened_url][:url])
 			redirect_to  short_url_path(shortUrl.unique_key)
-		else
-			redirect_to root_url
 		end
 	end
 
@@ -32,4 +32,9 @@ class ShortenedUrlsController < ApplicationController
 	def top_listings
 		@shortUrls = ShortenedUrl.all
 	end
+
+	private
+	  def url_params
+	    params.require(:shortened_url).permit(:url)
+		end
 end
