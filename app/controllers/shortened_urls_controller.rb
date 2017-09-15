@@ -1,7 +1,6 @@
 class ShortenedUrlsController < ApplicationController
 	def create
 		shortUrl = ShortenedUrl.new(url_params)
-		# binding.pry
 		if shortUrl.save
 			redirect_to  short_url_path(shortUrl.unique_key)
 		end
